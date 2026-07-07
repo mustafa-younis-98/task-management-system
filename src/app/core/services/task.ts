@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Task } from '../models/task';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,17 @@ export class TaskService {
 
   private readonly apiUrl = `${environment.apiUrl}/tasks`;
 
-  getTasks() {
+  getTasks(): Observable<Task[]> {
     return this.http.get<Task[]>(this.apiUrl);
+  }
+
+  deleteTask(id: number | string) {
+    return this.http.delete(`${this.apiUrl}/${id}`);
+  }
+
+  searchTasks(search: string, status: string = '', priority: string = ''): Observable<Task[]> {
+    return this.http.get<Task[]>(
+      `${this.apiUrl}?search=${search}&status=${status}&priority=${priority}`,
+    );
   }
 }
