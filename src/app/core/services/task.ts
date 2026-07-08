@@ -20,9 +20,19 @@ export class TaskService {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
 
-  searchTasks(search: string, status: string = '', priority: string = ''): Observable<Task[]> {
+  searchTasks(
+    search: string,
+    status: string = '',
+    priority: string = '',
+  ): Observable<Task[]> {
     return this.http.get<Task[]>(
       `${this.apiUrl}?search=${search}&status=${status}&priority=${priority}`,
     );
+  }
+
+  addTask(
+    task: Omit<Task, 'id' | 'createdAt' | 'updatedAt'>,
+  ): Observable<Task> {
+    return this.http.post<Task>(this.apiUrl, task);
   }
 }
