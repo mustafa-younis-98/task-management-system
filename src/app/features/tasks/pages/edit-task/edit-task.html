@@ -1,1 +1,63 @@
-<p>edit-task works!</p>
+<h2 class="mb-4">Edit Task</h2>
+
+<form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+  <div class="mb-3">
+    <label class="form-label">Title</label>
+
+    <input type="text" class="form-control" formControlName="title" />
+
+    @if ( taskForm.get('title')?.touched &&
+    taskForm.get('title')?.hasError('required') ) {
+    <div class="text-danger mt-1">Title is required.</div>
+    } @if ( taskForm.get('title')?.touched &&
+    taskForm.get('title')?.hasError('maxlength') ) {
+    <div class="text-danger mt-1">Maximum 120 characters allowed.</div>
+    }
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Description</label>
+
+    <textarea
+      class="form-control"
+      rows="4"
+      formControlName="description"
+    ></textarea>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Status</label>
+
+    <select class="form-select" formControlName="status">
+      <option value="todo">Todo</option>
+      <option value="in-progress">In Progress</option>
+      <option value="done">Done</option>
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Priority</label>
+
+    <select class="form-select" formControlName="priority">
+      <option value="low">Low</option>
+      <option value="medium">Medium</option>
+      <option value="high">High</option>
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Category</label>
+
+    <input type="text" class="form-control" formControlName="category" />
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Due Date</label>
+
+    <input type="date" class="form-control" formControlName="dueDate" />
+  </div>
+
+  <button type="submit" class="btn btn-primary" [disabled]="taskForm.invalid">
+    Update Task
+  </button>
+</form>

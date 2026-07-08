@@ -39,4 +39,11 @@ export class TaskService {
   getTaskById(id: number | string): Observable<Task> {
     return this.http.get<Task>(`${this.apiUrl}/${id}`);
   }
+
+  updateTask(
+    id: number | string,
+    task: Omit<Task, 'id' | 'createdAt' | 'updatedAt'>,
+  ): Observable<Task> {
+    return this.http.put<Task>(`${this.apiUrl}/${id}`, task);
+  }
 }
