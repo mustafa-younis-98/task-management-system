@@ -1,3 +1,13 @@
-<h2 class="text-center mt-4">Task Management System</h2>
+<div class="container-fluid">
+  <h2 class="text-center my-4">Task Management System</h2>
 
-<router-outlet />
+  <div class="row">
+    <div class="col-md-3 col-lg-2">
+      <app-sidebar></app-sidebar>
+    </div>
+
+    <div class="col-md-9 col-lg-10">
+      <router-outlet />
+    </div>
+  </div>
+</div>

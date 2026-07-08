@@ -1,0 +1,30 @@
+<div class="list-group shadow rounded sticky-top">
+  <a
+    routerLink="/dashboard"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
+    class="list-group-item list-group-item-action"
+  >
+    <i class="bi bi-speedometer2 me-2"></i>
+    Dashboard
+  </a>
+
+  <a
+    routerLink="/tasks"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
+    class="list-group-item list-group-item-action"
+  >
+    <i class="bi bi-list-task me-2"></i>
+    Tasks
+  </a>
+
+  <a
+    routerLink="/tasks/add"
+    routerLinkActive="active"
+    class="list-group-item list-group-item-action"
+  >
+    <i class="bi bi-plus-circle me-2"></i>
+    Add Task
+  </a>
+</div>
