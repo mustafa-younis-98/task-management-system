@@ -1,10 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { TaskService } from '../../../../core/services/task';
 import { Task } from '../../../../core/models/task';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })
