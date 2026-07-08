@@ -3,16 +3,19 @@ import { TaskService } from '../../../../core/services/task';
 import { Task } from '../../../../core/models/task';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DeleteConfirmModalComponent } from '../../../../shared/components/delete-confirm-modal/delete-confirm-modal.component';
 
 @Component({
   selector: 'app-task-list',
   standalone: true,
-  imports: [RouterLink, FormsModule],
+  imports: [RouterLink, FormsModule, DeleteConfirmModalComponent],
   templateUrl: './task-list.html',
   styleUrl: './task-list.css',
 })
 export class TaskList implements OnInit {
   private readonly taskService = inject(TaskService);
+  private readonly modalService = inject(NgbModal);
 
   tasks: Task[] = [];
 
@@ -41,22 +44,26 @@ export class TaskList implements OnInit {
   }
 
   deleteTask(id: number | string) {
-    const isConfirmed = window.confirm(
-      'Are you sure you want to delete this task?',
-    );
-
-    if (!isConfirmed) {
-      return;
-    }
-
-    this.taskService.deleteTask(id).subscribe({
-      next: () => {
-        this.tasks = this.tasks.filter((task) => task.id !== id);
-      },
-      error: (err) => {
-        this.errorMessage = 'Something went wrong. Please try again.';
-      },
+    const modalRef = this.modalService.open(DeleteConfirmModalComponent, {
+      centered: true,
     });
+
+    modalRef.result
+      .then((result) => {
+        if (result !== true) {
+          return;
+        }
+
+        this.taskService.deleteTask(id).subscribe({
+          next: () => {
+            this.tasks = this.tasks.filter((task) => task.id !== id);
+          },
+          error: () => {
+            this.errorMessage = 'Something went wrong. Please try again.';
+          },
+        });
+      })
+      .catch(() => {});
   }
 
   search(): void {
