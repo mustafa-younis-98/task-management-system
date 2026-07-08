@@ -23,7 +23,11 @@ export class Dashboard implements OnInit {
 
   overdueTasks = 0;
 
+  isLoading = false;
+
   ngOnInit(): void {
+    this.isLoading = true;
+
     this.taskService.getTasks().subscribe({
       next: (tasks) => {
         this.tasks = tasks;
@@ -47,10 +51,11 @@ export class Dashboard implements OnInit {
 
         this.recentTasks = tasks.slice(0, 5);
 
-        console.log(this.tasks);
+        this.isLoading = false;
       },
 
       error: (err) => {
+        this.isLoading = false;
         console.error(err);
       },
     });

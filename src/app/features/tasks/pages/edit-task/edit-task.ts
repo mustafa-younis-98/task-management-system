@@ -28,10 +28,16 @@ export class EditTask implements OnInit {
     dueDate: [''],
   });
 
+  isLoading = false;
+
+  isSaving = false;
+
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
 
     if (!id) return;
+
+    this.isLoading = true;
 
     this.taskService.getTaskById(id).subscribe({
       next: (task) => {
@@ -43,8 +49,11 @@ export class EditTask implements OnInit {
           category: task.category,
           dueDate: task.dueDate,
         });
+
+        this.isLoading = false;
       },
       error: (err) => {
+        this.isLoading = false;
         console.error(err);
       },
     });

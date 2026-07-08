@@ -1,3 +1,11 @@
+@if (isLoading) {
+<div class="d-flex justify-content-center my-5">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+} @else {
+
 <h2 class="mb-4">Dashboard</h2>
 
 <div class="row row-cols-1 row-cols-md-5 g-3">
@@ -72,3 +80,5 @@
     </tbody>
   </table>
 </div>
+
+}

@@ -1,3 +1,11 @@
+@if (isLoading) {
+<div class="d-flex justify-content-center my-5">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+} @else {
+
 <h2 class="mb-4">Edit Task</h2>
 
 <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
@@ -6,11 +14,11 @@
 
     <input type="text" class="form-control" formControlName="title" />
 
-    @if ( taskForm.get('title')?.touched &&
-    taskForm.get('title')?.hasError('required') ) {
+    @if (taskForm.get('title')?.touched &&
+    taskForm.get('title')?.hasError('required')) {
     <div class="text-danger mt-1">Title is required.</div>
-    } @if ( taskForm.get('title')?.touched &&
-    taskForm.get('title')?.hasError('maxlength') ) {
+    } @if (taskForm.get('title')?.touched &&
+    taskForm.get('title')?.hasError('maxlength')) {
     <div class="text-danger mt-1">Maximum 120 characters allowed.</div>
     }
   </div>
@@ -61,3 +69,5 @@
     Update Task
   </button>
 </form>
+
+}
