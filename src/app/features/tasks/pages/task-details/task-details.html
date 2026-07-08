@@ -1,1 +1,57 @@
-<p>task-details works!</p>
+@if (task) {
+<h2 class="mb-4">Task Details</h2>
+
+<div class="card">
+  <div class="card-body">
+    <h3>{{ task.title }}</h3>
+
+    <p>
+      <strong>Description:</strong>
+      {{ task.description }}
+    </p>
+
+    <p>
+      <strong>Status:</strong>
+
+      <span
+        class="badge"
+        [class.bg-secondary]="task.status === 'todo'"
+        [class.bg-warning]="task.status === 'in-progress'"
+        [class.bg-success]="task.status === 'done'"
+      >
+        {{ task.status }}
+      </span>
+    </p>
+
+    <p>
+      <strong>Priority:</strong>
+
+      <span
+        class="badge"
+        [class.bg-success]="task.priority === 'low'"
+        [class.bg-warning]="task.priority === 'medium'"
+        [class.bg-danger]="task.priority === 'high'"
+      >
+        {{ task.priority }}
+      </span>
+    </p>
+
+    <p>
+      <strong>Category:</strong>
+      {{ task.category }}
+    </p>
+
+    <p>
+      <strong>Due Date:</strong>
+      {{ task.dueDate }}
+    </p>
+  </div>
+</div>
+<div class="mt-4 d-flex gap-2">
+  <a [routerLink]="['/tasks', task!.id, 'edit']" class="btn btn-warning">
+    ✏️ Edit Task
+  </a>
+
+  <a routerLink="/tasks" class="btn btn-secondary"> ⬅ Back </a>
+</div>
+}
