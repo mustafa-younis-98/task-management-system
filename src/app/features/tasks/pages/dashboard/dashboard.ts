@@ -13,12 +13,42 @@ export class Dashboard implements OnInit {
 
   tasks: Task[] = [];
 
+  totalTasks = 0;
+  todoTasks = 0;
+  inProgressTasks = 0;
+  doneTasks = 0;
+
+  recentTasks: Task[] = [];
+
+  overdueTasks = 0;
+
   ngOnInit(): void {
     this.taskService.getTasks().subscribe({
       next: (tasks) => {
         this.tasks = tasks;
+
+        this.totalTasks = tasks.length;
+
+        this.todoTasks = tasks.filter((task) => task.status === 'todo').length;
+
+        this.inProgressTasks = tasks.filter(
+          (task) => task.status === 'in-progress',
+        ).length;
+
+        this.doneTasks = tasks.filter((task) => task.status === 'done').length;
+
+        this.overdueTasks = tasks.filter(
+          (task) =>
+            task.dueDate &&
+            new Date(task.dueDate) < new Date() &&
+            task.status !== 'done',
+        ).length;
+
+        this.recentTasks = tasks.slice(0, 5);
+
         console.log(this.tasks);
       },
+
       error: (err) => {
         console.error(err);
       },

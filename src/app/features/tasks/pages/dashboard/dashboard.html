@@ -1,1 +1,74 @@
-<p>dashboard works!</p>
+<h2 class="mb-4">Dashboard</h2>
+
+<div class="row g-3">
+  <div class="col-md-3">
+    <div class="card text-center">
+      <div class="card-body">
+        <h5>Total Tasks</h5>
+        <h2>{{ totalTasks }}</h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-3">
+    <div class="card text-center">
+      <div class="card-body">
+        <h5>Todo</h5>
+        <h2>{{ todoTasks }}</h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-3">
+    <div class="card text-center">
+      <div class="card-body">
+        <h5>In Progress</h5>
+        <h2>{{ inProgressTasks }}</h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-3">
+    <div class="card text-center">
+      <div class="card-body">
+        <h5>Done</h5>
+        <h2>{{ doneTasks }}</h2>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-md-3">
+  <div class="card text-center border-danger">
+    <div class="card-body">
+      <h5>Overdue</h5>
+      <h2 class="text-danger">{{ overdueTasks }}</h2>
+    </div>
+  </div>
+</div>
+
+<div class="mt-5">
+  <h4 class="mb-3">Recent Tasks</h4>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Status</th>
+        <th>Priority</th>
+        <th>Due Date</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      @for (task of recentTasks; track task.id) {
+      <tr>
+        <td>{{ task.title }}</td>
+        <td>{{ task.status }}</td>
+        <td>{{ task.priority }}</td>
+        <td>{{ task.dueDate }}</td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>
