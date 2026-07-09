@@ -3,9 +3,7 @@
 </div>
 
 @if (errorMessage) {
-  <div class="alert alert-danger" role="alert">
-    {{ errorMessage }}
-  </div>
+<div class="alert alert-danger" role="alert">{{ errorMessage }}</div>
 }
 
 <div class="mb-3">
@@ -20,15 +18,24 @@
 
 <div class="row mb-3">
   <div class="col-md-6">
-    <select class="form-select" [(ngModel)]="selectedStatus" (ngModelChange)="filterTasks()">
+    <select
+      class="form-select"
+      [(ngModel)]="selectedStatus"
+      (ngModelChange)="filterTasks()"
+    >
       <option value="">All Status</option>
       <option value="todo">Todo</option>
       <option value="in-progress">In Progress</option>
       <option value="done">Done</option>
     </select>
   </div>
+
   <div class="col-md-6">
-    <select class="form-select" [(ngModel)]="selectedPriority" (ngModelChange)="filterTasks()">
+    <select
+      class="form-select"
+      [(ngModel)]="selectedPriority"
+      (ngModelChange)="filterTasks()"
+    >
       <option value="">All Priorities</option>
       <option value="low">Low</option>
       <option value="medium">Medium</option>
@@ -38,61 +45,76 @@
 </div>
 
 @if (isLoading) {
-  <div class="d-flex justify-content-center my-5">
-    <div class="spinner-border text-primary" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>
+<div class="d-flex justify-content-center my-5">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
   </div>
-} @else {}
+</div>
+} @else {
 
 <div class="table-responsive">
   <table class="table table-hover align-middle mb-0">
     <thead class="table-light">
       <tr>
-        <th scope="col">Title</th>
-        <th scope="col">Status</th>
-        <th scope="col">Priority</th>
-        <th scope="col">Category</th>
-        <th scope="col">Due Date</th>
-        <th scope="col" class="text-center">Actions</th>
+        <th>Title</th>
+        <th>Status</th>
+        <th>Priority</th>
+        <th>Category</th>
+        <th>Due Date</th>
+        <th class="text-center">Actions</th>
       </tr>
     </thead>
 
     <tbody>
       @if (tasks.length === 0) {
-        <tr>
-          <td colspan="6" class="text-center py-4 text-muted">No tasks found.</td>
-        </tr>
-      } @else {
-        @for (task of tasks; track task.id) {
-          <tr>
-            <td>{{ task.title }}</td>
-            <td>{{ task.status }}</td>
-            <td>{{ task.priority }}</td>
-            <td>{{ task.category }}</td>
-            <td>{{ task.dueDate }}</td>
+      <tr>
+        <td colspan="6" class="text-center py-4 text-muted">No tasks found.</td>
+      </tr>
+      } @else { @for (task of tasks; track task.id) {
 
-            <td class="text-center">
-              <a class="btn btn-sm btn-outline-primary me-2" [routerLink]="['/tasks', task.id]">
-                View
-              </a>
-              <a
-                class="btn btn-sm btn-outline-warning me-2"
-                [routerLink]="['/tasks', task.id, 'edit']"
-              >
-                Edit
-              </a>
-              <button
-                type="button"
-                class="btn btn-sm btn-outline-danger"
-                (click)="deleteTask(task.id)"
-              >
-                Delete
-              </button>
-            </td>
-          </tr>
-        }
-      }
+      <tr [class.table-danger]="isOverdue(task)">
+        <td>{{ task.title }}</td>
+
+        <td>
+          {{ task.status }} @if (isOverdue(task)) {
+          <span class="badge bg-danger ms-2"> Overdue </span>
+          }
+        </td>
+
+        <td>{{ task.priority }}</td>
+
+        <td>{{ task.category }}</td>
+
+        <td>{{ task.dueDate }}</td>
+
+        <td class="text-center">
+          <a
+            class="btn btn-sm btn-outline-primary me-2"
+            [routerLink]="['/tasks', task.id]"
+          >
+            View
+          </a>
+
+          <a
+            class="btn btn-sm btn-outline-warning me-2"
+            [routerLink]="['/tasks', task.id, 'edit']"
+          >
+            Edit
+          </a>
+
+          <button
+            type="button"
+            class="btn btn-sm btn-outline-danger"
+            (click)="deleteTask(task.id)"
+          >
+            Delete
+          </button>
+        </td>
+      </tr>
+
+      } }
     </tbody>
   </table>
 </div>
+
+}
