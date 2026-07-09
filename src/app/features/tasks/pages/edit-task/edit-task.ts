@@ -3,6 +3,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TaskService } from '../../../../core/services/task';
 import { Task } from '../../../../core/models/task';
+import { ToastService } from '../../../../core/services/toast.service';
 
 @Component({
   selector: 'app-edit-task',
@@ -18,6 +19,8 @@ export class EditTask implements OnInit {
   private readonly router = inject(Router);
 
   private readonly fb = inject(FormBuilder);
+
+  private readonly toastService = inject(ToastService);
 
   taskForm = this.fb.group({
     title: ['', [Validators.required, Validators.maxLength(120)]],
@@ -76,10 +79,11 @@ export class EditTask implements OnInit {
 
     this.taskService.updateTask(id, task).subscribe({
       next: () => {
+        this.toastService.show('Task updated successfully.', 'success');
         this.router.navigate(['/tasks']);
       },
-      error: (err) => {
-        console.error(err);
+      error: () => {
+        this.toastService.show('Failed to update task.', 'error');
       },
     });
   }

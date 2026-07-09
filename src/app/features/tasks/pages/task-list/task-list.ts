@@ -5,6 +5,7 @@ import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DeleteConfirmModalComponent } from '../../../../shared/components/delete-confirm-modal/delete-confirm-modal.component';
+import { ToastService } from '../../../../core/services/toast.service';
 
 @Component({
   selector: 'app-task-list',
@@ -16,6 +17,7 @@ import { DeleteConfirmModalComponent } from '../../../../shared/components/delet
 export class TaskList implements OnInit {
   private readonly taskService = inject(TaskService);
   private readonly modalService = inject(NgbModal);
+  private readonly toastService = inject(ToastService);
 
   tasks: Task[] = [];
 
@@ -57,9 +59,10 @@ export class TaskList implements OnInit {
         this.taskService.deleteTask(id).subscribe({
           next: () => {
             this.tasks = this.tasks.filter((task) => task.id !== id);
+            this.toastService.show('Task deleted successfully.', 'success');
           },
           error: () => {
-            this.errorMessage = 'Something went wrong. Please try again.';
+            this.toastService.show('Something went wrong.', 'error');
           },
         });
       })
