@@ -48,4 +48,20 @@ export const routes: Routes = [
       },
     ],
   },
+  {
+    path: '',
+    loadComponent: () =>
+      import('./layouts/error-layout/error-layout.component').then(
+        (m) => m.ErrorLayoutComponent,
+      ),
+    children: [
+      {
+        path: '**',
+        loadComponent: () =>
+          import('./shared/pages/not-found/not-found.component').then(
+            (m) => m.NotFoundComponent,
+          ),
+      },
+    ],
+  },
 ];
