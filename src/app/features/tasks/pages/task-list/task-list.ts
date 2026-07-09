@@ -105,4 +105,12 @@ export class TaskList implements OnInit {
         },
       });
   }
+
+  isOverdue(task: Task): boolean {
+    if (!task.dueDate) {
+      return false;
+    }
+
+    return new Date(task.dueDate) < new Date() && task.status !== 'done';
+  }
 }
