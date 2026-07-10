@@ -1,11 +1,43 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
+  // Redirect
   {
     path: '',
     redirectTo: 'dashboard',
     pathMatch: 'full',
   },
+  {
+    path: 'register',
+    loadComponent: () =>
+      import('./features/auth/pages/register/register.component').then(
+        (c) => c.RegisterComponent,
+      ),
+  },
+
+  // ==========================
+  // Auth Layout
+  // ==========================
+  {
+    path: '',
+    loadComponent: () =>
+      import('./layouts/auth-layout/auth-layout.component').then(
+        (m) => m.AuthLayoutComponent,
+      ),
+    children: [
+      {
+        path: 'login',
+        loadComponent: () =>
+          import('./features/auth/pages/login/login.component').then(
+            (m) => m.LoginComponent,
+          ),
+      },
+    ],
+  },
+
+  // ==========================
+  // Main Layout
+  // ==========================
   {
     path: '',
     loadComponent: () =>
@@ -48,6 +80,10 @@ export const routes: Routes = [
       },
     ],
   },
+
+  // ==========================
+  // Error Layout
+  // ==========================
   {
     path: '',
     loadComponent: () =>
