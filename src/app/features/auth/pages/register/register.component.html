@@ -1,0 +1,177 @@
+<div class="container">
+  <div class="row justify-content-center mt-5">
+    <div class="col-lg-5 col-md-7">
+      <div class="card shadow border-0">
+        <div class="card-body p-4">
+          <h2 class="text-center mb-2">Create Account</h2>
+
+          <p class="text-center text-muted mb-4">
+            Create your account to continue
+          </p>
+
+          @if (errorMessage) {
+            <div class="alert alert-danger" role="alert">
+              {{ errorMessage }}
+            </div>
+          }
+
+          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            <!-- User Name -->
+            <div class="mb-3">
+              <label class="form-label">User Name</label>
+
+              <input
+                type="text"
+                class="form-control"
+                formControlName="userName"
+              />
+
+              @if (
+                registerForm.get("userName")?.touched &&
+                registerForm.get("userName")?.invalid
+              ) {
+                <div class="text-danger small mt-1">
+                  @if (registerForm.get("userName")?.errors?.["required"]) {
+                    <div>Username is required.</div>
+                  }
+
+                  @if (registerForm.get("userName")?.errors?.["minlength"]) {
+                    <div>Username must be at least 3 characters.</div>
+                  }
+                </div>
+              }
+            </div>
+
+            <!-- Full Name -->
+            <div class="mb-3">
+              <label class="form-label">Full Name</label>
+
+              <input
+                type="text"
+                class="form-control"
+                formControlName="fullName"
+              />
+
+              @if (
+                registerForm.get("fullName")?.touched &&
+                registerForm.get("fullName")?.invalid
+              ) {
+                <div class="text-danger small mt-1">
+                  @if (registerForm.get("fullName")?.errors?.["required"]) {
+                    <div>Full name is required.</div>
+                  }
+
+                  @if (registerForm.get("fullName")?.errors?.["minlength"]) {
+                    <div>Full name must be at least 3 characters.</div>
+                  }
+                </div>
+              }
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3">
+              <label class="form-label">Password</label>
+
+              <input
+                type="password"
+                class="form-control"
+                formControlName="password"
+              />
+
+              @if (
+                registerForm.get("password")?.touched &&
+                registerForm.get("password")?.invalid
+              ) {
+                <div class="text-danger small mt-1">
+                  @if (registerForm.get("password")?.errors?.["required"]) {
+                    <div>Password is required.</div>
+                  }
+
+                  @if (registerForm.get("password")?.errors?.["minlength"]) {
+                    <div>Password must be at least 6 characters.</div>
+                  }
+                </div>
+              }
+            </div>
+
+            <!-- Phone Number -->
+            <div class="mb-3">
+              <label class="form-label">Phone Number</label>
+
+              <input
+                type="text"
+                class="form-control"
+                formControlName="phoneNumber"
+              />
+
+              @if (
+                registerForm.get("phoneNumber")?.touched &&
+                registerForm.get("phoneNumber")?.invalid
+              ) {
+                <div class="text-danger small mt-1">
+                  @if (registerForm.get("phoneNumber")?.errors?.["required"]) {
+                    <div>Phone number is required.</div>
+                  }
+
+                  @if (registerForm.get("phoneNumber")?.errors?.["pattern"]) {
+                    <div>
+                      Phone number must start with 07 and contain 11 digits.
+                    </div>
+                  }
+                </div>
+              }
+            </div>
+
+            <!-- Gender -->
+            <div class="mb-4">
+              <label class="form-label">Gender</label>
+
+              <select class="form-select" formControlName="gender">
+                <option value="">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+
+              @if (
+                registerForm.get("gender")?.touched &&
+                registerForm.get("gender")?.invalid
+              ) {
+                <div class="text-danger small mt-1">
+                  @if (registerForm.get("gender")?.errors?.["required"]) {
+                    <div>Please select your gender.</div>
+                  }
+                </div>
+              }
+            </div>
+
+            <button
+              class="btn btn-primary w-100"
+              type="submit"
+              [disabled]="isLoading || registerForm.invalid"
+            >
+              @if (isLoading) {
+                <span
+                  class="spinner-border spinner-border-sm me-2"
+                  aria-hidden="true"
+                >
+                </span>
+
+                Creating Account...
+              } @else {
+                Create Account
+              }
+            </button>
+          </form>
+
+          <p class="text-center mt-4 mb-0">
+            Already have an account?
+
+            <a routerLink="/login" class="text-decoration-none fw-semibold">
+              Login
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
