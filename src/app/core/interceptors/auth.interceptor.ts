@@ -9,35 +9,33 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
   const toastService = inject(ToastService);
 
-  if (token) {
-    const authReq = req.clone({
-      setHeaders: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+  const authReq = token
+    ? req.clone({
+        setHeaders: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+    : req;
 
-    return next(authReq).pipe(
-      catchError((error) => {
-        if (error.status === 401) {
-          toastService.show('Session expired. Please log in again.', 'error');
+  return next(authReq).pipe(
+    catchError((error) => {
+      if (error.status === 401) {
+        toastService.show('Session expired. Please log in again.', 'error');
 
-          localStorage.removeItem('token');
-          localStorage.removeItem('user');
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
 
-          router.navigate(['/login']);
-        }
+        router.navigate(['/login']);
+      }
 
-        if (error.status === 403) {
-          toastService.show(
-            "You don't have permission to perform this action.",
-            'error',
-          );
-        }
+      if (error.status === 403) {
+        toastService.show(
+          "You don't have permission to perform this action.",
+          'error',
+        );
+      }
 
-        return throwError(() => error);
-      }),
-    );
-  }
-
-  return next(req);
+      return throwError(() => error);
+    }),
+  );
 };
