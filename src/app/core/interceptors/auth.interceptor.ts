@@ -27,6 +27,13 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
           router.navigate(['/login']);
         }
 
+        if (error.status === 403) {
+          toastService.show(
+            "You don't have permission to perform this action.",
+            'error',
+          );
+        }
+
         return throwError(() => error);
       }),
     );
