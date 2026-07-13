@@ -9,13 +9,15 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
   const toastService = inject(ToastService);
 
-  const authReq = token
-    ? req.clone({
-        setHeaders: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-    : req;
+  let authReq = req;
+
+  if (token) {
+    authReq = req.clone({
+      setHeaders: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  }
 
   return next(authReq).pipe(
     catchError((error) => {
@@ -26,9 +28,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         localStorage.removeItem('user');
 
         router.navigate(['/login']);
-      }
-
-      if (error.status === 403) {
+      } else if (error.status === 403) {
         toastService.show(
           "You don't have permission to perform this action.",
           'error',
